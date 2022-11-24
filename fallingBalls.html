@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <title>توپ جام جهانی</title>
+    <style>
+        html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        }
+                /* SINGLE BALL */
+
+        #single{
+            bottom: inherit;
+            right: 54px;
+            width: 32px;
+            margin: 9px 4px;
+            z-index: 3;
+            position: fixed;
+            transition: top 2s linear;
+            transition: left 1s linear;
+            animation: football_rotate 1s linear infinite  normal ;
+        }
+        #single.speed2x{
+            animation: football_rotate 0.12s linear infinite  normal ;
+        }
+        .display{
+            display: none;
+        }
+
+        @keyframes football_rotate {  
+            0% { transform:rotate(0deg);} 
+            100% { transform:rotate(360deg);} 
+        }
+        .soccer{
+            width: 60px;
+        }
+        .balls{
+            bottom: 0%;
+            z-index: 1;
+        }
+        .up{
+            top: 0;
+            right: 54px !important;
+            width: 32px !important;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="./football-no-background.png" alt="soccer ball" id="single">
+        <div class="balls"></div>
+    </div>
+    <script>
+        $(document).ready(() =>{
+            $( ".container" ).click(function() {
+            if($("#single").hasClass('clicked')){
+                return;
+            }
+
+            $( "#single" ).animate({
+                'bottom': '-1%',
+                'right': '45%'
+
+            }, 2000, function()  {
+                setTimeout(function(){
+                    $("#single").addClass('speed2x');
+                    $("#single").addClass('clicked');
+                }, 1000 )
+                setTimeout(function(){
+                    create_balls();
+                    create_balls_right()
+                    create_balls_left()
+                }, 1500 )
+
+                setTimeout(function(){
+                    $("#single").addClass('up');
+                    $("#single").removeClass('speed2x');
+                    $("#single").removeClass('clicked');
+                }, 1900 )
+                setTimeout(function(){
+                    $("#single").removeClass('up');
+                }, 3000 )
+                setTimeout(function(){
+                    $('#single').css({bottom: 'inherit', right: '54px', width : '32px'})
+                }, 2800 )
+                
+            })
+            $( "#single" ).delay(1100).animate({'width': '80px'},1150 , function(){})
+            });
+
+        })
+
+        var create_balls= function(){
+            var array = []
+            for(i=0; i<100; i++){
+                var rand_location= Math.floor(Math.random()*95);
+                var rand_speed= Math.floor(Math.random()*1000)+600;
+                var rand_delay= Math.floor(Math.random()*1000);
+                array.push(rand_speed);
+                let img = $('<img src="./football-no-background.png" alt="soccer ball" class="soccer">')
+                $('.balls').append(img);
+                img.css({
+                    'position':'fixed',
+                    'bottom': '1%',
+                    'right': '45%'
+                })
+                img.stop(true, true).delay(rand_delay).animate({'bottom':'100%','left':rand_location+'%'}, rand_speed);
+            }
+            setTimeout(function(){
+                $(".soccer").remove()
+            }, Math.max(...array)+1500); 
+        }
+        var create_balls_right= function(){
+            var array = []
+            for(i=0; i<60; i++){
+                var rand_location= Math.floor(Math.random()*95);
+                var rand_speed= Math.floor(Math.random()*1000)+1000;
+                var rand_delay= Math.floor(Math.random()*1000);
+                array.push(rand_speed);
+                let img = $('<img src="./football-no-background.png" alt="soccer ball" class="soccer">')
+                $('.balls').append(img);
+                img.css({
+                    'position':'fixed',
+                    'bottom': '1%',
+                    'right': '45%'
+                })
+                img.stop(true, true).delay(rand_delay).animate({'bottom':rand_location+'%','left':'100%'}, rand_speed);
+            }
+            setTimeout(function(){
+                $(".soccer").remove()
+            }, Math.max(...array)+1500); 
+        }
+        var create_balls_left= function(){
+            var array = []
+            for(i=0; i<60; i++){
+                var rand_location= Math.floor(Math.random()*95);
+                var rand_speed= Math.floor(Math.random()*1000)+1000;
+                var rand_delay= Math.floor(Math.random()*1000);
+                array.push(rand_speed);
+                let img = $('<img src="./football-no-background.png" alt="soccer ball" class="soccer">')
+                $('.balls').append(img);
+                img.css({
+                    'position':'fixed',
+                    'bottom': '1%',
+                    'right': '45%'
+                })
+                img.stop(true, true).delay(rand_delay).animate({'bottom':rand_location+'%','left':'-20%'}, rand_speed);
+            }
+            setTimeout(function(){
+                $(".soccer").remove()
+            }, Math.max(...array)+1500); 
+        }
+    </script>
+</body>
+</html>
